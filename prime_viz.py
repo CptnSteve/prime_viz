@@ -18,7 +18,7 @@ def gen_points(end):
   pos = 0,0
   times_to_move = 1
 
-  yield n, prime_check(n), pos #, prime_check(n)
+  yield prime_check(n), pos[0], pos[1], n
   
   while True:
     for _ in range(2):
@@ -28,10 +28,11 @@ def gen_points(end):
           return
         pos = move(*pos)
         n+=1
-        yield n, prime_check(n), pos #, prime_check(n)
+        yield prime_check(n), pos[0], pos[1], n
     times_to_move+=1
 
-def plotting(grid_len):
+def plotting(x, y):
+  plt.scatter(x,y)
   plt.show()
 
 def prime_check(num):
@@ -45,19 +46,19 @@ def prime_check(num):
   return prime_status
   
 def main():
-  GRID_LEN = 25
+  GRID_LEN = 150
   grid_area = GRID_LEN * GRID_LEN
   x = []
   y = []
   
   for val in gen_points(grid_area):
-    print(val)
-    # x.append(val[0])
-    # y.append(val[1])
+    if val[0] == 1:
+      x.append(val[1])
+      y.append(val[2])
+    if val[3] % 100 == 0:
+      print("Eval: ", val[3], " out of ", grid_area)
   
-  # print(x,y)
-  
-  #plotting(GRID_LEN)
+  plotting(x,y)
   
   
 main()
